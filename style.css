@@ -1,0 +1,103 @@
+body {
+  background-color: #005D9D;
+}
+
+div.terminal {
+  width: 40%;
+  height: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+div.panel {
+  height: 100%;
+  width: 100%;
+  background-color: #002239;
+  border-radius: 0 0 10px 10px;
+  overflow: auto;
+}
+
+div.titleBar {
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  background-color: azure;
+}
+
+div.titleBar div.button {
+  text-align: left;
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  border-style: solid;
+  text-align: center;
+  margin-left: 2px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+div.titleBar div.button.closeButton {
+  border-color: red;
+  background-color: red;
+  margin-left: 5px;
+}
+
+div.titleBar div.button.minimizeButton {
+  border-color: orange;
+  background-color: orange;
+}
+
+div.titleBar div.button.maximizeButton {
+  border-color: green;
+  background-color: green;
+}
+
+div.panel div.pathText {
+  font-family: "Lucida Console", Courier, monospace;
+  color: greenyellow;
+  padding-top: 10px;
+  padding-left: 5px;
+  margin-right: 5px;
+  font-size: 12.5px;
+  display: inline-block;
+}
+
+div.panel div.cliText {
+  font-family: "Lucida Console", Courier, monospace;
+  font-size: 12.5px;
+  padding-left: 0px;
+  color: white;
+  line-height: normal;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+div.panel div._pathText {
+  font-family: "Lucida Console", Courier, monospace;
+  color: greenyellow;
+  padding-top: 10px;
+  padding-left: 5px;
+  margin-right: 5px;
+  font-size: 12.5px;
+  display: inline-block;
+}
+
+div.panel div._cliText {
+  font-family: "Lucida Console", Courier, monospace;
+  font-size: 12.5px;
+  padding-left: 0px;
+  color: white;
+  line-height: normal;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+div.panel div.resultText {
+  font-family: "Lucida Console", Courier, monospace;
+  font-size: 12.5px;
+  padding-left: 5px;
+  color: white;
+  line-height: normal;
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0);
+}
