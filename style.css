@@ -2,18 +2,30 @@ body {
   background-color: #005D9D;
 }
 
+div.normalButton {
+  top: 2%;
+  left: 1%;
+  width: 1.5%;
+  height: 3%;
+  position: fixed;
+  border-radius: 25%;
+  border-style: solid;
+  border-color: blueviolet;
+  background-color: blueviolet;
+}
+
 div.terminal {
   width: 40%;
   height: 40%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10%;
+  left: 30%;
+  top: 25%;
+  position: absolute;
 }
 
 div.panel {
   height: 100%;
   width: 100%;
-  background-color: #002239;
+  background-color: rgba(0, 34, 57, 0.8);
   border-radius: 0 0 10px 10px;
   overflow: auto;
 }
@@ -34,6 +46,7 @@ div.titleBar div.button {
   margin-left: 2px;
   margin-top: 3px;
   display: inline-block;
+  cursor: pointer;
 }
 
 div.titleBar div.button.closeButton {

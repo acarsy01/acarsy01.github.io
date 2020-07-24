@@ -116,6 +116,25 @@ const commands = {
   }
 };
 
+function finishDrag() {
+  document.onmouseup = null;
+  document.onmousemove = null;
+}
+
+function startDrag() {
+  document.onmouseup = finishDrag;
+
+  document.onmousemove = function (e) {
+    if (document.getElementsByClassName("terminal")[0].style.width !== "100%") {
+      const oldTransition = document.getElementsByClassName("terminal")[0].style.transition;
+      document.getElementsByClassName("terminal")[0].style.transition = null;
+      document.getElementsByClassName("terminal")[0].style.top = (document.getElementsByClassName("terminal")[0].offsetTop + e.movementY) + "px";
+      document.getElementsByClassName("terminal")[0].style.left = (document.getElementsByClassName("terminal")[0].offsetLeft + e.movementX) + "px";
+      document.getElementsByClassName("terminal")[0].style.transition = oldTransition;
+    }
+  }
+}
+
 document.body.onload = function () {
   newCommand();
 }
@@ -125,6 +144,29 @@ document.body.onclick = function (e) {
     document.getElementsByClassName("cliText")[0].focus();
   }
 }
+
+document.getElementsByClassName("normalButton")[0].onclick = function () {
+  document.getElementsByClassName("terminal")[0].style.top = "25%";
+  document.getElementsByClassName("terminal")[0].style.left = "30%";
+}
+
+document.getElementsByClassName("maximizeButton")[0].onclick = function () {
+  if (document.getElementsByClassName("terminal")[0].style.width !== "100%") {
+    document.getElementsByClassName("terminal")[0].style.width = "100%";
+    document.getElementsByClassName("terminal")[0].style.height = window.innerHeight - document.getElementsByClassName("titleBar")[0].clientHeight;
+    document.getElementsByClassName("terminal")[0].style.top = "0";
+    document.getElementsByClassName("terminal")[0].style.left = "0";
+  } else {
+    document.getElementsByClassName("terminal")[0].style.width = "40%";
+    document.getElementsByClassName("terminal")[0].style.height = "40%";
+    document.getElementsByClassName("terminal")[0].style.top = "30%";
+    document.getElementsByClassName("terminal")[0].style.left = "25%";
+  }
+}
+
+document.getElementsByClassName("titleBar")[0].addEventListener("mousedown", function (e) {
+  startDrag();
+});
 
 document.body.onkeydown = function (e) {
   if (e.path[0].innerHTML === document.getElementsByClassName("cliText")[0].innerHTML) {
