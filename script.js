@@ -1,8 +1,9 @@
+let beforePath = "";
 let currentPath = "root";
 let historyIndex = -1;
 const files = {
   "root": {
-    "about.txt": `
+    "me.txt": `
       Hi, my name is Acar! I am student who dreaming of becoming a developer.
     `,
     "skills": {
@@ -19,9 +20,19 @@ const files = {
       "css.txt": `
         I'm not good at this. I know this enough for me. I learned this with HTML.
       `
+    },
+    "projects": {
+      "hsfs.txt": `
+        I am making HTTP client in node for now. You can display this project in <a href="https://github.com/acarsy01/hsfs">hsfs's GitHub Page</a>.
+      `
     }
   }
-}
+};
+
+
+
+
+
 
 function onError(errorText) {
   document.getElementsByClassName("panel")[0].innerHTML = (`
@@ -58,6 +69,36 @@ function newCommand() {
   document.getElementsByClassName("cliText")[0].focus();
 }
 
+function getPath(path) {
+  let result = currentPath.split("/").reduce(function (a, b) {
+    beforePath = a;
+    return a[b];
+  }, files);
+
+  for (let pathKey of path.split("/").filter((el) => (typeof el !== "undefined") && (el !== ""))) {
+    console.log(pathKey)
+    if (typeof result !== "undefined") {
+      if (pathKey !== ".") {
+        if (pathKey !== "..") {
+          beforePath = result;
+          result = result[pathKey];
+        } else {
+          result = beforePath;
+        }
+      }
+    } else {
+      break;
+    }
+  }
+
+  console.log(result)
+
+  return result;
+}
+
+
+
+
 const commands = {
   "help": {
     "description": "display commands",
@@ -81,11 +122,21 @@ const commands = {
     "usage": "cd DIRECTORY",
     "description": "move into DIRECTORY",
     "code": function (directory) {
-      const path = currentPath.split("/").slice(1).reduce((a, b) => a[b], files[currentPath.split("/")[0]]);
+      const path = getPath(directory);
 
-      if (path.hasOwnProperty(directory)) {
-        currentPath += `/${directory}`;
-      } else if (directory) {
+      if (JSON.stringify(path) === JSON.stringify(files)) {
+        beforePath = "";
+        currentPath = "root";
+      } else if (typeof path === "object") {
+        currentPath = directory.split("/").filter((el) => el !== ".").reduce(function (a, b) {
+          if (b == "..") {
+            return a.split("/").slice(0, -1).join("/");
+          } else {
+            return a + "/" + b;
+          }
+        }, "root");
+        currentPath = ((currentPath == "/") ? "root" : currentPath);
+      } else if (typeof directory === "string") {
         onError(`${directory} isn't valid directory.`);
       } else {
         onError("arguments isn't valid.");
@@ -95,13 +146,15 @@ const commands = {
   "cat": {
     "usage": "cat FILENAME",
     "description": "display content of FILENAME",
-    "code": function (fileName) {
-      const path = currentPath.split("/").slice(1).reduce((a, b) => a[b], files[currentPath.split("/")[0]]);
+    "code": function (directory) {
+      const file = getPath(directory);
 
-      if (!path.hasOwnProperty(fileName)) {
-        onError(`${fileName} isn't valid file.`);
+      if (typeof file === "string") {
+        text(file);
+      } else if (typeof directory === "string") {
+        onError(`${directory} isn't valid file.`);
       } else {
-        text(path[fileName]);
+        onError("arguments isn't valid.");
       }
     }
   },
@@ -116,6 +169,9 @@ const commands = {
   }
 };
 
+
+
+
 function finishDrag() {
   document.onmouseup = null;
   document.onmousemove = null;
@@ -125,7 +181,7 @@ function startDrag() {
   document.onmouseup = finishDrag;
 
   document.onmousemove = function (e) {
-    if (document.getElementsByClassName("terminal")[0].style.width !== "100%") {
+    if (document.getElementsByClassName("terminal")[0].style.width !== "98%") {
       const oldTransition = document.getElementsByClassName("terminal")[0].style.transition;
       document.getElementsByClassName("terminal")[0].style.transition = null;
       document.getElementsByClassName("terminal")[0].style.top = (document.getElementsByClassName("terminal")[0].offsetTop + e.movementY) + "px";
@@ -134,6 +190,9 @@ function startDrag() {
     }
   }
 }
+
+
+
 
 document.body.onload = function () {
   newCommand();
@@ -151,16 +210,18 @@ document.getElementsByClassName("normalButton")[0].onclick = function () {
 }
 
 document.getElementsByClassName("maximizeButton")[0].onclick = function () {
-  if (document.getElementsByClassName("terminal")[0].style.width !== "100%") {
-    document.getElementsByClassName("terminal")[0].style.width = "100%";
-    document.getElementsByClassName("terminal")[0].style.height = window.innerHeight - document.getElementsByClassName("titleBar")[0].clientHeight;
-    document.getElementsByClassName("terminal")[0].style.top = "0";
-    document.getElementsByClassName("terminal")[0].style.left = "0";
+  if (document.getElementsByClassName("terminal")[0].style.width !== "98%") {
+    document.getElementsByClassName("terminal")[0].style.width = "98%";
+    document.getElementsByClassName("terminal")[0].style.height = window.innerHeight - (document.getElementsByClassName("titleBar")[0].clientHeight * 1.5);
+    document.getElementsByClassName("terminal")[0].style.top = "0.5%";
+    document.getElementsByClassName("terminal")[0].style.left = "1%";
   } else {
     document.getElementsByClassName("terminal")[0].style.width = "40%";
     document.getElementsByClassName("terminal")[0].style.height = "40%";
     document.getElementsByClassName("terminal")[0].style.top = "30%";
     document.getElementsByClassName("terminal")[0].style.left = "25%";
+    document.getElementsByClassName("normalButton")[0].click();
+
   }
 }
 
@@ -178,12 +239,14 @@ document.body.onkeydown = function (e) {
       const arguments = document.getElementsByClassName("cliText")[0].innerHTML.split(" ").slice(1);
 
       if (!Object.keys(commands).includes(command)) {
-        onError(`${command} command couldn't found.`);
+        if (command !== "") {
+          onError(`${command} command couldn't found.`);
+        }
       } else {
         commands[command].code(...arguments);
 
         const history = (localStorage.getItem("history") ? localStorage.getItem("history").split(",") : []);
-        history.push(command);
+        history.push(command + " " + arguments.join(" "));
         localStorage.setItem("history", history.join(","));
       }
 

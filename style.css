@@ -22,6 +22,7 @@ div.terminal {
   position: absolute;
 }
 
+
 div.panel {
   height: 100%;
   width: 100%;
@@ -113,4 +114,9 @@ div.panel div.resultText {
   line-height: normal;
   display: inline-block;
   background-color: rgba(0, 0, 0, 0);
+}
+
+a {
+  text-decoration: none;
+  color: blue;
 }
