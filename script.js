@@ -4,26 +4,26 @@ let historyIndex = -1;
 const files = {
   "root": {
     "me.txt": `
-      Hi, my name is Acar! I am student who dreaming of becoming a developer.
+      Hi, my name is Acar! I am student who dreaming of becoming a developer. You can find me on <a href="https://github.com/acarsy01">Github</a>, <a href="https://twitter.com/acarsy01">Twitter</a> and Discord. (acarsy01#0585)
     `,
     "skills": {
       "javascript.txt": `
         I have started to learn javascript with Discord bots since 2018. I have made many sites and Discord bots so far using Javascript.
       `,
       "typescript.txt": `
-        I have started to learn typescript for a month. The reqson is that i don't like JSDOC for integrate autocomplete in Visual Studio Code.
-        Typescript do this a simple way.
+        I have started to learn typescript for a month. The reason is that i don't like JSDOC for integrate autocomplete in Visual Studio Code.
+        Typescript do it a simple way.
       `,
       "html.txt": `
-        Maybe i learned this a month before javascript.
+        Maybe i learned this a month before learned javascript.
       `,
       "css.txt": `
         I'm not good at this. I know this enough for me. I learned this with HTML.
       `
     },
     "projects": {
-      "hsfs.txt": `
-        I am making HTTP client in node for now. You can display this project in <a href="https://github.com/acarsy01/hsfs">hsfs's GitHub Page</a>.
+      "shivers.txt": `
+        Soon ;)
       `
     }
   }
